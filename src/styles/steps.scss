@@ -1,0 +1,105 @@
+.step-progress__wrapper {
+	margin: 0 70px;
+    position: relative;
+    @media (max-width:767px) {
+        margin: 0 10px;
+    }
+    
+}
+
+.step-progress__wrapper-before {
+	background-color: #aeadad;
+	transform: translateY(-50%) perspective(1000px)
+}
+
+.step-progress__wrapper-after,
+.step-progress__wrapper-before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 50%;
+	height: 3px;
+	width: 100%
+}
+
+.step-progress__wrapper-after {
+	background-color: #32b732;
+	transform: scaleX(0) translateY(-50%) perspective(1000px);
+	transform-origin: left center;
+	transition: transform .5s ease
+}
+
+.step-progress__bar {
+	width: 100%;
+	display: flex;
+	height: 100px;
+	justify-content: space-between;
+	align-items: center;
+    margin-bottom: 20px;
+    @media (max-width:767px) {
+        margin-bottom: 0;
+    }
+}
+
+.step-progress__step {
+	z-index: 2;
+    position: relative;
+    span {
+        display: none;
+    }
+}
+
+@media (max-width:767px) {
+	.step-progress__step span {
+		font-size: 28px
+	}
+}
+.step-progress__step-label {
+    display: none;
+}
+
+.step-progress__step--active .step-progress__step-label,
+.step-progress__step--active span {
+    color: #32b732;
+}
+
+.step-progress__step--active .step-progress__step-icon {
+	opacity: 1
+}
+
+.step-progress__step--valid .step-progress__step-icon {
+	opacity: 1;
+	transform: translate3d(-50%, -50%, 0) scale(1) perspective(1000px)
+}
+
+.step-progress__step--valid span {
+	color: #32b732;
+	opacity: 0;
+	transform: translateZ(0) scale(2) perspective(1000px)
+}
+
+.step-progress__step--valid .step-progress__step-label {
+    color: #32b732;
+    display: none;
+}
+
+.step-progress__step:after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%) perspective(1000px);
+	width: 15px;
+	height: 15px;
+	background-color: #aeadad;
+	border-radius: 50%;
+	transition: .3s ease
+}
+.step-progress__step--active:after {
+    background-color: #32b732;
+}
+
+.step-progress__step--valid:after {
+	background-color: #32b732;
+}

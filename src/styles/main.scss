@@ -1,0 +1,37 @@
+body, ul, h1, h2, h3, h4, h5, h6, p, span, li, span, label, button, textarea, input {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Proxima', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #fff8f2;
+    &.ekat {
+        background-color: #151515;
+    }
+}
+
+button, input, textarea {
+    outline: none;
+}
+
+body, ul, h1, h2, h3, h4, h5, h6, p, span, li, span, label, button, textarea, input {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
