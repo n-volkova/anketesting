@@ -1,1 +1,1 @@
-https://n-martynova.github.io/anketesting/chat/
+https://n-martynova.github.io/anketesting/
