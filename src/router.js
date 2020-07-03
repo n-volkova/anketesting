@@ -10,14 +10,14 @@ export default new Router({
     routes: [
         { 
             path: process.env.NODE_ENV === 'production' ? '/anketesting/' : '/',
-            redirect: '/anketesting/chat', 
+            redirect: '/anketesting/chat/', 
         },
         { 
             path: '/anketesting/',
-            redirect: '/anketesting/chat', 
+            redirect: '/anketesting/chat/', 
         },
         {
-            path: '/anketesting/chat',
+            path: '/anketesting/chat/',
             component: ChatProfile,
         }
     ]
