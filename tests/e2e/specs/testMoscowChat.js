@@ -1,6 +1,6 @@
 describe('Moscow Chat Test', function() {
     it('Fills and sends Moscow Chat', function() {
-        cy.visit('http://localhost:8080/chat')
+        cy.visit('http://localhost:8080/anketesting/chat')
 
         cy.get('[name=first_last_name]')
             .type('Мартынова Надежда')

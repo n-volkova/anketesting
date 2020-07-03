@@ -4,11 +4,14 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 import ChatProfile from '@/views/ChatProfile.vue'
-import HotlineProfile from '@/views/HotlineProfile.vue'
 
 export default new Router({
     mode: 'history',
     routes: [
+        { 
+            path: process.env.NODE_ENV === 'production' ? '/anketesting/' : '/',
+            redirect: '/anketesting/chat', 
+        },
         { 
             path: '/anketesting/',
             redirect: '/anketesting/chat', 
@@ -16,10 +19,6 @@ export default new Router({
         {
             path: '/anketesting/chat',
             component: ChatProfile,
-        },
-        { 
-            path: '/anketesting/hotline',
-            component: HotlineProfile 
-        },
+        }
     ]
 })
