@@ -9,11 +9,15 @@ export default new Router({
     mode: 'history',
     routes: [
         { 
-            path: process.env.NODE_ENV !== 'production' && '/',
-            redirect: '/anketesting/', 
+            path: process.env.NODE_ENV === 'production' ? '/anketesting/' : '/',
+            redirect: '/anketesting/chat/', 
+        },
+        { 
+            path: '/anketesting/',
+            redirect: '/anketesting/chat/', 
         },
         {
-            path: '/anketesting/',
+            path: '/anketesting/chat/',
             component: ChatProfile,
         }
     ]
