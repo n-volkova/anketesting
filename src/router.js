@@ -6,14 +6,11 @@ Vue.use(Router)
 import ChatProfile from '@/views/ChatProfile.vue'
 
 export default new Router({
-    mode: 'hash',
+    mode: 'history',
+    base: process.env.NODE_ENV === 'production' && '/anketesting',
     routes: [
         { 
-            path: process.env.NODE_ENV !== 'production' && '/',
-            redirect: '/anketesting', 
-        },
-        { 
-            path: '/anketesting',
+            path: '/',
             component: ChatProfile
         },
     ]
