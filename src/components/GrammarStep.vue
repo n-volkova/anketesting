@@ -66,8 +66,6 @@
             }
         },
         mounted() {
-            window.gtag('event', 'test_chat', { event_category: 'general'})
-            
             const unwatch = this.$watch('$refs.countdown.totalSeconds', function(newVal) {
                 if (newVal === 60) {
                     this.lastMinute = true
