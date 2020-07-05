@@ -18,8 +18,8 @@ describe('Moscow Chat Test', function() {
             
         cy.get('.question-wrapper input').first().check('Реклама в соцсетях')
 
-        cy.get('button[type=submit]').click()
-
+        cy.get('.button').click()
+        cy.wait(500)
         cy.get('.start-test').click()
 
         cy.get('.gap-wrapper').each(function($item) {

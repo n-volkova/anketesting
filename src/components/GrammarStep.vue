@@ -61,9 +61,6 @@
             allFilled() {
                 return !this.chosenVariants.includes(undefined) && this.chosenVariants.length !== 0
             },
-            isEkat() {
-                return this.$route.path.indexOf('ekat') !== -1 
-            }
         },
         mounted() {
             const unwatch = this.$watch('$refs.countdown.totalSeconds', function(newVal) {
@@ -122,10 +119,7 @@
                 
                 this.sending = true
                 this.$emit('grammarCompleted', this.countResult())
-
-                if (!this.isEkat) {
-                    this.$emit('change', 'KotReady')
-                }
+                this.$emit('change', 'KotReady')
             }
         }
     }
@@ -134,7 +128,6 @@
 <style lang="scss">
     .grammar-step {
         .shadow-box {
-            padding-bottom: 40px;
             margin-top: 40px;
             @media (max-width: 600px) {
                 margin-top: 0;
@@ -188,11 +181,4 @@
     .spring-spinner {
         margin: 14px auto 0;
     }
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .9s;
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
-    
 </style>

@@ -118,7 +118,6 @@
 <style lang="scss" scoped>
     .kot-step {
         .shadow-box {
-            padding: 40px 20px;
             margin-top: 40px;
             @media (max-width: 600px) {
                 margin-top: 0;
@@ -162,11 +161,4 @@
     .spring-spinner {
         margin: 0 auto;
     }
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .9s;
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0;
-    }
-    
 </style>

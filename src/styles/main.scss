@@ -12,9 +12,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #fff8f2;
-    &.ekat {
-        background-color: #151515;
-    }
 }
 
 button, input, textarea {
@@ -34,4 +31,11 @@ body, ul, h1, h2, h3, h4, h5, h6, p, span, li, span, label, button, textarea, in
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .2s linear;
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
 }

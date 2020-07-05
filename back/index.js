@@ -15,10 +15,6 @@ const init = async () => {
 
     app.use(require('cors')({credentials: true, origin: DEBUG ? 'http://localhost:8080' : 'https://anketesting.rocketbank.ru'}))
 
-    app.post('/api/saveToHotline',
-        require('./routes/saveToHotline')
-    );
-
     app.post('/api/saveToChat',
         require('./routes/saveToChat')
     );

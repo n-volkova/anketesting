@@ -16,26 +16,7 @@
                 lock />
         </div>
         <p>Правильный ответ — «медленный».</p>
-        <div v-if="isSingle" class="">
-            <p>Если готов, укажи имя и фамилию.</p>
-
-            <div class="input-wrapper js-input-wrapper">
-                <input 
-                    class="js-input"
-                    v-model.trim.lazy="name"
-                    v-validate="'required|min:5'"
-                    type="text" 
-                    autocomplete
-                    name="first_last_name" 
-                    ref="first_last_name"  
-                    placeholder="Фамилия и имя"
-                    @focus="onInvalidFocus($event)"
-                />
-                    <span class="error-message">{{ errors.first('first_last_name') }}</span>
-            </div>
-        </div>
-
-        <p v-else>Если готов, жми кнопку!</p>
+        <p>Если готов, жми кнопку!</p>
 
         <div class="button start-test" @click="toKot()">Погнали</div>
     </section>
@@ -49,21 +30,10 @@
         components: {
             KotQuestion
         },
-        data() {
-            return {
-                name: ''
-            }
-        },
+        
         computed: {
-            isHot() {
-                return this.$route.path === '/anketesting/hotline'
-            },
-            isSingle() {
-                return this.$route.path === '/anketesting/kot'
-            },
             message() {
-                return this.isHot ? 'В поддержке ребята сталкиваются с большим количеством разноплановых задачек, а ответы клиентам дают не более, чем за три минуты. Проверим, готов ли ты работать в таком темпе!' 
-                : 'В поддержке ребята сталкиваются с большим количеством разноплановых задачек, а ответы клиентам дают не более, чем за три минуты. Проверим, готов ли ты работать в таком темпе!'
+                return 'В поддержке ребята сталкиваются с большим количеством разноплановых задачек, а ответы клиентам дают не более, чем за три минуты. Проверим, готов ли ты работать в таком темпе!'
             },
         },
 
@@ -72,29 +42,8 @@
         },
         
         methods: {
-            submit() {
-                this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        this.$emit('name', this.name)
-                        this.$emit('change', 'Kot')
-                    } else {
-                        let firstInvalid = document.querySelector('.invalid') 
-                        scroll.scrollTo(firstInvalid, 300, { offset: -20 })
-                    }
-                })
-            },
             toKot() {
-                if (!this.isSingle) {
-                    this.$emit('change', 'Kot')
-                } else {
-                    this.submit()
-                }
-            },
-            onInvalidFocus(e) {
-                let fieldname = e.currentTarget.getAttribute('name')
-                if (this.fields[fieldname].invalid) {
-                    this.$validator.flag(fieldname, {invalid: false})
-                }
+                this.$emit('change', 'Kot')
             },
         }
     }
