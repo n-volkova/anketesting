@@ -31,6 +31,7 @@
 </template>
 
 <script>
+    import scroll from 'vue-scrollto'
     import Countdown from '@chenfengyuan/vue-countdown'
     import SpringSpinner from './SpringSpinner'
     import EventBus from '../eventBus'
@@ -70,6 +71,7 @@
             }
         },
         mounted() {
+            scroll.scrollTo('#app', 300, { offset: -20 })
             const unwatch = this.$watch('$refs.countdown.totalSeconds', function(newVal) {
                 if (newVal === 60) {
                     this.lastMinute = true
