@@ -1,81 +1,78 @@
 <template>
-    <transition name="fade" mode="out-in">
-        <component 
-            :is="`${current}Step`" 
-            @profileCompleted="onProfileCompleted"
-            @grammarCompleted="onGrammarCompleted"
-            @kotCompleted="onKotCompleted"
-            @change="(step) => changeStep(step)">
-                <template v-slot:progress>
-                    <step-progress :steps="steps" :current-step="currentIndex" @change="(step) => changeStep(step)" />
-                </template>
-        </component>
-    </transition>
+  <transition
+    name="fade"
+    mode="out-in"
+  >
+    <component 
+      :is="`${current}Step`" 
+      @profileCompleted="onProfileCompleted"
+      @grammarCompleted="onGrammarCompleted"
+      @kotCompleted="onKotCompleted"
+      @change="(step) => changeStep(step)"
+    >
+      <template #progress>
+        <step-progress
+          :steps="steps"
+          :current-step="currentIndex"
+          @change="(step) => changeStep(step)"
+        />
+      </template>
+    </component>
+  </transition>
 </template>
 
 <script>
-import StepProgress from '../components/StepProgress.vue'
-import ProfileStep from '../components/ProfileStep.vue'
-import GrammarReadyStep from '../components/GrammarReadyStep.vue'
-import GrammarStep from '../components/GrammarStep.vue'
+import StepProgress from '../components/StepProgress.vue';
+import ProfileStep from '../components/ProfileStep.vue';
+import GrammarReadyStep from '../components/GrammarReadyStep.vue';
+import GrammarStep from '../components/GrammarStep.vue';
 // KOT - это краткий отборочный тест  Σ:з
-import KotReadyStep from '../components/KotReadyStep.vue'
-import KotStep from '../components/KotStep.vue'
-import FinalStep from '../components/FinalStep.vue'
+import KotReadyStep from '../components/KotReadyStep.vue';
+import KotStep from '../components/KotStep.vue';
+import FinalStep from '../components/FinalStep.vue';
 
 export default {
-    name: 'app',
-    components: {
-        StepProgress,
-        ProfileStep,
-        GrammarReadyStep,
-        GrammarStep,
-        KotReadyStep,
-        KotStep,
-        FinalStep,
+  name: 'App',
+  components: {
+    StepProgress,
+    ProfileStep,
+    GrammarReadyStep,
+    GrammarStep,
+    KotReadyStep,
+    KotStep,
+    FinalStep,
+  },
+  data () {
+    return {
+      current: 'Profile',
+      steps: ['Profile', 'Grammar', 'Kot'],
+      profileData: null,
+    };
+  },
+  computed: {
+    currentIndex() {
+      return this.steps.indexOf(this.current);
     },
-    data () {
-        return {
-            current: 'Profile',
-            steps: ['Profile', 'Grammar', 'Kot'],
-            profileData: null,
-            url: 'saveToChat'
-        }
+  },
+  methods: {
+    changeStep(step) {
+      this.current = step;
     },
-    computed: {
-        currentIndex() {
-            return this.steps.indexOf(this.current)
-        },
+    onProfileCompleted(profile) {
+      this.profileData = profile;
     },
-    methods: {
-        changeStep(step) {
-            this.current = step
-        },
-        onProfileCompleted(profile) {
-            this.profileData = profile
-        },
-        onGrammarCompleted(resultCount) {
-            this.profileData.grammar = resultCount
-        },
-        onKotCompleted(resultCount) {
-            this.profileData.kot = resultCount
-            this.submit()
-        },
-        submit() {
-            this.$http({
-                url: this.url,
-                data: this.profileData,
-                method: 'POST',
-                withCredentials: true
-            }).then(res => {
-                this.changeStep('Final')
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+    onGrammarCompleted(resultCount) {
+      this.profileData.grammar = resultCount;
+    },
+    onKotCompleted(resultCount) {
+      this.profileData.kot = resultCount;
+      this.submit();
+    },
+    submit() {
+      this.changeStep('Final');
     }
-}
+  }
+};
 </script>
 
 <style lang="scss">

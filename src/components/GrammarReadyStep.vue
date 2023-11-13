@@ -1,29 +1,30 @@
 <template>
-    <section class="ready-step">
-        <p>{{ message }}</p>
-        <p>Если готов — жми кнопку.</p>
+  <section class="ready-step">
+    <p>{{ message }}</p>
+    <p>Если готов — жми кнопку.</p>
 
-        <div class="button start-test" @click="toGrammar()">Начать</div>
-    </section>
+    <div
+      class="button start-test"
+      @click="toGrammar()"
+    >
+      Начать
+    </div>
+  </section>
 </template>
 
 <script>
-    export default {
-        computed: {
-            isHot() {
-                return this.$route.path === '/anketesting/hotline'
-            },
-            message() {
-                return this.isHot ? 'Перейдем к тесту на грамотность. Это важный этап, поскольку работа со звонками подразумевает грамотное составление ответов клиентам. Мы не общаемся шаблонами!' 
-                : 'Перейдем к тесту на грамотность. Это важный этап, поскольку работа в чате подразумевает грамотное составление ответов клиентам. Мы не общаемся шаблонами!'
-            },
-        },
-        methods: {
-            toGrammar() {
-                this.$emit('change', 'Grammar')
-            }
-        }
+export default {
+  computed: {
+    message() {
+      return 'Перейдем к тесту на грамотность. Это важный этап, поскольку работа в чате подразумевает грамотное составление ответов клиентам. Мы не общаемся шаблонами!';
+    },
+  },
+  methods: {
+    toGrammar() {
+      this.$emit('change', 'Grammar');
     }
+  }
+};
 </script>
 
 <style lang="scss">

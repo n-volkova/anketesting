@@ -1,88 +1,94 @@
 <template>
-    <span class="gap-wrapper">
+  <span class="gap-wrapper">
 
-        <span class="gap"
-            :class="{ 'empty': chosenFill == null, 'continuous': continuous }"
-            @click="showFills">{{ visibleFill !== null ? visibleFill : `&nbsp;` }}
-        </span>
-
-        <transition name="fade">
-            <div v-if="tooltipActive" class="tooltip">
-                <div 
-                    v-for="(item, index) in fills" 
-                    :key="index"
-                    class="fill"
-                    :data-name="item"
-                    @click="(payload) => onGapChanged(payload)">
-                    {{ item }}
-                </div>
-            </div>
-        </transition>
+    <span
+      class="gap"
+      :class="{ 'empty': chosenFill == null, 'continuous': continuous }"
+      @click="showFills"
+    >{{ visibleFill !== null ? visibleFill : `&nbsp;` }}
     </span>
+
+    <transition name="fade">
+      <div
+        v-if="tooltipActive"
+        class="tooltip"
+      >
+        <div 
+          v-for="(item, index) in fills" 
+          :key="index"
+          class="fill"
+          :data-name="item"
+          @click="(payload) => onGapChanged(payload)"
+        >
+          {{ item }}
+        </div>
+      </div>
+    </transition>
+  </span>
 </template>
 
 <script>
-    import EventBus from '../eventBus'
-    export default {
-        components: {
-        },
-        props: {
-            id: {
-                type: String,
-                default: ''
-            },
-            fills: {
-                type: Array,
-                default: () => []
-            },
-            correct: {
-                type: String,
-                default: ''
-            }
-        },
-        data () {
-            return {
-                tooltipOptions: {
-                    placement: 'top',
-                    modifiers: { offset: { offset: '0, 10px' } }
-                },
-                tooltipActive: false,
-                chosenFill: null,
-                visibleFill: null,
-                continuous: false
-            }
-        },
-        methods: {
-            showFills() {
-                this.tooltipActive = true
-            },
-            onGapChanged(chosen) {
-                let changedValue = chosen.target.textContent.trim()
-                switch (changedValue) {
-                    case 'раздельно':
-                        this.visibleFill = ' '
-                        this.continuous = false
-                        break
-                    case 'слитно':
-                        this.visibleFill = ''
-                        this.continuous = true
-                        break
-                    default: 
-                        this.visibleFill = changedValue
-                        this.continuous = false
-                }
-
-                this.chosenFill = changedValue
-                this.tooltipActive = false
-
-                EventBus.$emit('gapChanged', { 
-                                                id: this.id, 
-                                                chosen: this.chosenFill, 
-                                                isCorrect: this.chosenFill === this.correct 
-                                            })
-            }
-        }
+import EventBus from '../eventBus';
+export default {
+  components: {
+  },
+  props: {
+    id: {
+      type: String,
+      default: ''
+    },
+    fills: {
+      type: Array,
+      default: () => []
+    },
+    correct: {
+      type: String,
+      default: ''
     }
+  },
+  data () {
+    return {
+      tooltipOptions: {
+        placement: 'top',
+        modifiers: { offset: { offset: '0, 10px' } }
+      },
+      tooltipActive: false,
+      chosenFill: null,
+      visibleFill: null,
+      continuous: false
+    };
+  },
+  methods: {
+    showFills() {
+      this.tooltipActive = true;
+    },
+    onGapChanged(chosen) {
+      let changedValue = chosen.target.textContent.trim();
+      switch (changedValue) {
+        case 'раздельно':
+          this.visibleFill = ' ';
+          this.continuous = false;
+          break;
+        case 'слитно':
+          this.visibleFill = '';
+          this.continuous = true;
+          break;
+        default: 
+          this.visibleFill = changedValue;
+          this.continuous = false;
+      }
+
+      this.chosenFill = changedValue;
+      this.tooltipActive = false;
+
+      EventBus.$emit('gapChanged', { 
+        id: this.id, 
+        chosen: this.chosenFill, 
+        isCorrect: this.chosenFill === this.correct 
+      });
+    }
+  }
+};
 </script>
 
 <style lang="scss">

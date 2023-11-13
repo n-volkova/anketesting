@@ -1,39 +1,45 @@
 <template>
-    <div class="progress-wrapper">
-        <div 
-            v-for="(step, index) in steps" 
-            :key="step" 
-            class="step"
-            :class="index <= currentStep && 'passed'">
-
-            <div v-if="index > 0" class="step-line"></div>
-            <div class="step-circle" @click="$emit('change', step)"></div>
-        </div>
+  <div class="progress-wrapper">
+    <div 
+      v-for="(step, index) in steps" 
+      :key="step" 
+      class="step"
+      :class="index <= currentStep && 'passed'"
+    >
+      <div
+        v-if="index > 0"
+        class="step-line"
+      />
+      <div
+        class="step-circle"
+        @click="$emit('change', step)"
+      />
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'StepProgress',
-    props: {
-        steps: {
-            type: Array,
-            default: () => []
-        },
-        currentStep: {
-            type: Number,
-            default: 0
-        }
+  name: 'StepProgress',
+  props: {
+    steps: {
+      type: Array,
+      default: () => []
     },
-    data () {
-        return {
-        }
-    },
-    computed: {
-    },
-    methods: {
+    currentStep: {
+      type: Number,
+      default: 0
     }
-}
+  },
+  data () {
+    return {
+    };
+  },
+  computed: {
+  },
+  methods: {
+  }
+};
 </script>
 
 <style lang="scss">

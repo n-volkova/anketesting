@@ -1,130 +1,146 @@
 <template>
-    <section class="grammar-step">
-        <div class="shadow-box">
-            <slot name="progress"></slot>
-            <div class="test-wrapper" :class="sending ? 'disabled-gaps': ''" >
-                <countdown 
-                    ref="countdown"
-                    class="countdown"
-                    :class="lastMinute ? 'red' : ''"
-                    emit-events
-                    tag="div"
-                    :time="420000"
-                    :transform="formatTime"
-                    @end="onCountdownEnd">
-                    <template slot-scope="props">
-                        {{ props.minutes }}:{{ props.seconds }}
-                    </template>
-                </countdown>
+  <section class="grammar-step">
+    <div class="shadow-box">
+      <slot name="progress" />
+      <div
+        class="test-wrapper"
+        :class="sending ? 'disabled-gaps': ''"
+      >
+        <countdown
+          v-if="startCountdown"
+          ref="countdown"
+          class="countdown"
+          :class="lastMinute ? 'red' : ''"
+          emit-events
+          tag="div"
+          :time="420000"
+          :transform="formatTime"
+          @end="onCountdownEnd"
+        >
+          <template slot-scope="props">
+            {{ props.minutes }}:{{ props.seconds }}
+          </template>
+        </countdown>
 
-                <test @gapData="setGapData" />
+        <test
+          @hook:mounted="start"
+          @gapData="setGapData"
+        />
 
-                <div class="button" :class="allFilled ? '' : 'disabled'" @click="saveResult">
-                    <transition name="fade" mode="out-in">
-                        <span>Отправить</span>
-                    </transition>
-                </div>
-            </div>
+        <div
+          class="button"
+          :class="allFilled ? '' : 'disabled'"
+          @click="saveResult"
+        >
+          <transition
+            name="fade"
+            mode="out-in"
+          >
+            <span>Отправить</span>
+          </transition>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-    import scroll from 'vue-scrollto'
-    import Countdown from '@chenfengyuan/vue-countdown'
-    import SpringSpinner from './SpringSpinner'
-    import EventBus from '../eventBus'
+import Countdown from '@chenfengyuan/vue-countdown';
+import EventBus from '../eventBus';
 
-    function randomInteger() {
-        let rand = 1 - 0.5 + Math.random() * 3
-        return Math.round(rand)
-    }
+function randomInteger() {
+  let rand = 1 - 0.5 + Math.random() * 3;
+  return Math.round(rand);
+}
 
-    const randomTestId = randomInteger()
+const randomTestId = randomInteger();
     
-    export default {
-        components: {
-            Countdown, SpringSpinner,
-            'test': () => import(`./GrammarTest${randomTestId}`)
-        },
-        data () {
-            return {
-                startCountdown: false,
-                lastMinute: false,
-                gapCount: null,
-                variants: null,
-                gaps: [],
-                chosenVariants: [],
-                sending: false
-            }
-        },
-        computed: {
-            allFilled() {
-                return !this.chosenVariants.includes(undefined) && this.chosenVariants.length !== 0
-            },
-        },
-        mounted() {
-            scroll.scrollTo('#app', 300, { offset: -20 })
-            const unwatch = this.$watch('$refs.countdown.totalSeconds', function(newVal) {
-                if (newVal === 60) {
-                    this.lastMinute = true
-                    unwatch()
-                }
-            }, {
-                immediate: true
-            })
+export default {
+  components: {
+    Countdown,
+    'test': () => import(`./GrammarTest${randomTestId}`)
+  },
+  data () {
+    return {
+      startCountdown: false,
+      lastMinute: false,
+      gapCount: null,
+      variants: null,
+      gaps: [],
+      chosenVariants: [],
+      sending: false
+    };
+  },
+  computed: {
+    allFilled() {
+      return !this.chosenVariants.includes(undefined) && this.chosenVariants.length !== 0;
+    },
+  },
+  mounted() {
+    this.startCountdown = true;
+    const unwatch = this.$watch('$refs.countdown.totalSeconds', function(newVal) {
+      if (newVal === 60) {
+        this.lastMinute = true;
+        unwatch();
+      }
+    }, {
+      immediate: true
+    });
 
-            let self = this
-            EventBus.$on('gapChanged', gap => {
-                self.gaps.splice(gap.id, 1, gap.isCorrect)
-                self.chosenVariants.splice(gap.id, 1, gap.chosen)
-            })
-        },
-        methods: {
-            onCountdownEnd() {
-                this.saveResult()
-            },
-            formatTime(props) {
-                Object.entries(props).forEach(([key, value]) => {
-                    // Adds leading zero
-                    const digits = value < 10 ? `0${value}` : value;
-                    props[key] = `${digits}`
-                })
-                return props
-            },
-            setGapData(variants) {
-                this.gapCount = variants.length
-                this.variants = variants
-                variants.forEach(item => {
-                    this.gaps.push(undefined)
-                    this.chosenVariants.push(undefined)
-                })
-            },
-            countResult() {
-                let correctCount = this.gaps.reduce((n, x) => n + (x === true), 0)
-                let mistakes = []
+    let self = this;
+    EventBus.$on('gapChanged', gap => {
+      self.gaps.splice(gap.id, 1, gap.isCorrect);
+      self.chosenVariants.splice(gap.id, 1, gap.chosen);
+    });
+  },
+  methods: {
+    start() {
+      this.startCountdown = true;
+    },
+    onCountdownEnd() {
+      this.saveResult();
+    },
+    formatTime(props) {
+      Object.entries(props).forEach(([key, value]) => {
+        // Adds leading zero
+        const digits = value < 10 ? `0${value}` : value;
+        props[key] = `${digits}`;
+      });
+      return props;
+    },
+    setGapData(variants) {
+      this.gapCount = variants.length;
+      this.variants = variants;
+      variants.forEach(item => {
+        this.gaps.push(undefined);
+        this.chosenVariants.push(undefined);
+      });
+    },
+    countResult() {
+      let correctCount = this.gaps.reduce((n, x) => n + (x === true), 0);
+      let mistakes = [];
 
-                if (this.gapCount - correctCount <= 8 && this.gapCount !== correctCount) {
-                    this.gaps.forEach((gap, index) => {
-                        if (!gap) {
-                            mistakes.push(`${index + 1}(${this.chosenVariants[index]})`)
-                        }
-                    })
-                    return `Тест №${randomTestId}\n${correctCount}/${this.gapCount}\n${mistakes.join(', ')}`
+      if (this.gapCount - correctCount <= 8 && this.gapCount !== correctCount) {
+        this.gaps.forEach((gap, index) => {
+          if (!gap) {
+            mistakes.push(`${index + 1}(${this.chosenVariants[index]})`);
+          }
+        });
+        return `Тест №${randomTestId}\n${correctCount}/${this.gapCount}\n${mistakes.join(', ')}`;
 
-                } else {
-                    return `${correctCount}/${this.gapCount}`
-                }
-            },
-            saveResult() {
-                if (this.sending) return
+      } else {
+        return `${correctCount}/${this.gapCount}`;
+      }
+    },
+    saveResult() {
+      if (this.sending) return;
                 
-                this.sending = true
-                this.$emit('grammarCompleted', this.countResult())
-                this.$emit('change', 'KotReady')
-            }
-        }
+      this.sending = true;
+      this.$emit('grammarCompleted', this.countResult());
+      this.$emit('change', 'KotReady');
     }
+  }
+};
 </script>
 
 <style lang="scss">

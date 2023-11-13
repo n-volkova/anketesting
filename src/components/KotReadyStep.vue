@@ -1,52 +1,58 @@
 <template>
-    <section class="ready-step">
-        <p><strong>{{ message }}</strong></p>
-        <p>Тест содержит 50 вопросов. На выполнение теста дается 15 минут.</p>
-        <p>Ответь на столько вопросов, на сколько сможешь, и не трать много времени на один вопрос.</p>
-        <p>Работай как можно быстрее. Если какое-нибудь задание теста не получается, не задерживайся на нем слишком долго, переходи к следующему.</p>
+  <section class="ready-step">
+    <p><strong>{{ message }}</strong></p>
+    <p>Тест содержит 50 вопросов. На выполнение теста дается 15 минут.</p>
+    <p>Ответь на столько вопросов, на сколько сможешь, и не трать много времени на один вопрос.</p>
+    <p>Работай как можно быстрее. Если какое-нибудь задание теста не получается, не задерживайся на нем слишком долго, переходи к следующему.</p>
 
-        <h3>Образец:</h3>
+    <h3>Образец:</h3>
 
-        <div class="sample shadow-box">
-            <kot-question 
-                title="«Быстрый» является противоположным по смыслу слову:"
-                :options="['тяжелый', 'упругий', 'скрытный', 'легкий', 'медленный']"
-                correct="медленный"
-                demo
-                lock />
-        </div>
-        <p>Правильный ответ — «медленный».</p>
-        <p>Если готов, жми кнопку!</p>
+    <div class="sample shadow-box">
+      <kot-question 
+        title="«Быстрый» является противоположным по смыслу слову:"
+        :options="['тяжелый', 'упругий', 'скрытный', 'легкий', 'медленный']"
+        correct="медленный"
+        demo
+        lock
+      />
+    </div>
+    <p>Правильный ответ — «медленный».</p>
+    <p>Если готов, жми кнопку!</p>
 
-        <div class="button start-test" @click="toKot()">Погнали</div>
-    </section>
+    <div
+      class="button start-test"
+      @click="toKot()"
+    >
+      Погнали
+    </div>
+  </section>
 </template>
 
 <script>
-    import KotQuestion from './KotQuestion'
-    import scroll from 'vue-scrollto'
+import KotQuestion from './KotQuestion';
+import scroll from 'vue-scrollto';
 
-    export default {
-        components: {
-            KotQuestion
-        },
+export default {
+  components: {
+    KotQuestion
+  },
         
-        computed: {
-            message() {
-                return 'В поддержке ребята сталкиваются с большим количеством разноплановых задачек, а ответы клиентам дают не более, чем за три минуты. Проверим, готов ли ты работать в таком темпе!'
-            },
-        },
+  computed: {
+    message() {
+      return 'В поддержке ребята сталкиваются с большим количеством разноплановых задачек, а ответы клиентам дают не более, чем за три минуты. Проверим, готов ли ты работать в таком темпе!';
+    },
+  },
 
-        mounted() {
-            scroll.scrollTo('#app', 300, { offset: -20 })
-        },
+  mounted() {
+    scroll.scrollTo('#app', 300, { offset: -20 });
+  },
         
-        methods: {
-            toKot() {
-                this.$emit('change', 'Kot')
-            },
-        }
-    }
+  methods: {
+    toKot() {
+      this.$emit('change', 'Kot');
+    },
+  }
+};
 </script>
 
 <style lang="scss">

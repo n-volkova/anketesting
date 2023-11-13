@@ -1,231 +1,251 @@
 <template>
-    <section class="profile-step">
-        <div class="intro" v-html="message"></div>
+  <section class="profile-step">
+    <div
+      class="intro"
+      v-html="message"
+    />
         
-        <div class="shadow-box">
-            <slot name="progress"></slot>
+    <div class="shadow-box">
+      <slot name="progress" />
 
-            <form @submit.prevent="submit">
-                <h2>Анкета</h2>
-                <p>Заполните форму, и мы ответим в течение 2–3 рабочих дней.</p>
+      <form @submit.prevent="submit">
+        <h2>Анкета</h2>
+        <p>Заполните форму, и мы ответим в течение 2–3 рабочих дней.</p>
 
-                <div class="profile-form">
-                    <div class="input-wrapper js-input-wrapper">
-                        <input 
-                            class="js-input"
-                            v-model.trim.lazy="profileData.name"
-                            v-validate="'required|min:5'"
-                            type="text" 
-                            autocomplete
-                            name="first_last_name" 
-                            ref="first_last_name" 
-                            placeholder="Фамилия и имя"
-                            @focus="onInvalidFocus($event)"
-                        />
-                        <span class="error-message">{{ errors.first('first_last_name') }}</span>
-                    </div>
-                    <div class="input-wrapper js-input-wrapper">
-                        <input 
-                            class="js-input" 
-                            v-model.trim.lazy="profileData.email"
-                            v-validate="'required|email'"
-                            type="text"
-                            autocomplete
-                            name="email" 
-                            ref="email" 
-                            placeholder="Электронная почта"
-                            @focus="onInvalidFocus($event)"
-                        />
-                        <span class="error-message">{{ errors.first('email') }}</span>
-                    </div>
-                    <div class="input-wrapper js-input-wrapper">
-                        <input 
-                            class="js-input" 
-                            v-model="profileData.phone"
-                            v-mask="'+7 (###) ###-##-##'"
-                            v-validate="'required|length:18'"
-                            data-vv-validate-on="none"
-                            type="tel"
-                            autocomplete="tel" 
-                            name="phone" 
-                            ref="phone" 
-                            placeholder="Телефон (в формате +7 (9ХХ) ХХХ-ХХ-ХХ)"
-                            @focus="onPhoneFocus"
-                        />
-                        <span class="error-message">{{ errors.first('phone') }}</span>
-                    </div>
-                    <div class="input-wrapper js-input-wrapper">
-                        <textarea 
-                            class="js-input"
-                            v-model.trim.lazy="profileData.social"
-                            v-validate="'url'"
-                            type="text"
-                            name="social" 
-                            ref="social" 
-                            placeholder="Ссылка на соцсеть"
-                            rows="1"
-                            @focus="onInvalidFocus($event)"
-                        />
-                        <span class="error-message">{{ errors.first('social') }}</span>
-                        <label for="social" class="horizontal-label">Ссылка на ваш профиль в&nbsp;контакте или фейсбуке</label>
-                    </div>
+        <div class="profile-form">
+          <div class="input-wrapper js-input-wrapper">
+            <input 
+              ref="first_last_name"
+              v-model.trim.lazy="profileData.name"
+              v-validate="'required|min:5'"
+              class="js-input" 
+              type="text"
+              autocomplete 
+              name="first_last_name" 
+              placeholder="Фамилия и имя"
+              @focus="onInvalidFocus($event)"
+            />
+            <span class="error-message">{{ errors.first('first_last_name') }}</span>
+          </div>
+          <div class="input-wrapper js-input-wrapper">
+            <input 
+              ref="email" 
+              v-model.trim.lazy="profileData.email"
+              v-validate="'required|email'"
+              class="js-input"
+              type="text"
+              autocomplete 
+              name="email" 
+              placeholder="Электронная почта"
+              @focus="onInvalidFocus($event)"
+            />
+            <span class="error-message">{{ errors.first('email') }}</span>
+          </div>
+          <div class="input-wrapper js-input-wrapper">
+            <input 
+              ref="phone" 
+              v-model="profileData.phone"
+              v-mask="'+7 (###) ###-##-##'"
+              v-validate="'required|length:18'"
+              class="js-input"
+              data-vv-validate-on="none"
+              type="tel" 
+              autocomplete="tel" 
+              name="phone" 
+              placeholder="Телефон (в формате +7 (9ХХ) ХХХ-ХХ-ХХ)"
+              @focus="onPhoneFocus"
+            />
+            <span class="error-message">{{ errors.first('phone') }}</span>
+          </div>
+          <div class="input-wrapper js-input-wrapper">
+            <textarea 
+              ref="social"
+              v-model.trim.lazy="profileData.social"
+              v-validate="'url'"
+              class="js-input"
+              type="text" 
+              name="social" 
+              placeholder="Ссылка на соцсеть"
+              rows="1"
+              @focus="onInvalidFocus($event)"
+            />
+            <span class="error-message">{{ errors.first('social') }}</span>
+            <label
+              for="social"
+              class="horizontal-label"
+            >Ссылка на ваш профиль в&nbsp;контакте или фейсбуке</label>
+          </div>
 
-                    <div class="input-wrapper js-input-wrapper">
-                        <textarea 
-                            class="js-input" 
-                            v-model.trim.lazy="profileData.cv"
-                            v-validate="'url'"
-                            type="text"
-                            name="cv" 
-                            ref="cv" 
-                            placeholder="Ссылка на резюме"
-                            rows="1"
-                            @focus="onInvalidFocus($event)"
-                        />
-                        <span class="error-message">{{ errors.first('cv') }}</span>
-                        <label for="cv" class="horizontal-label">Если есть</label>
-                    </div>
+          <div class="input-wrapper js-input-wrapper">
+            <textarea 
+              ref="cv" 
+              v-model.trim.lazy="profileData.cv"
+              v-validate="'url'"
+              class="js-input"
+              type="text" 
+              name="cv" 
+              placeholder="Ссылка на резюме"
+              rows="1"
+              @focus="onInvalidFocus($event)"
+            />
+            <span class="error-message">{{ errors.first('cv') }}</span>
+            <label
+              for="cv"
+              class="horizontal-label"
+            >Если есть</label>
+          </div>
 
-                    <div class="input-wrapper js-input-wrapper">
-                        <textarea 
-                            class="js-input"
-                            v-model.trim.lazy="profileData.about"
-                            v-validate="'required|min:250'"
-                            type="text"
-                            name="about" 
-                            ref="about" 
-                            :placeholder="aboutPlaceholder"
-                            rows="10"
-                            @focus="onInvalidFocus($event)"
-                        />
-                        <span class="error-message">{{ errors.first('about') }}</span>
-                        <label for="about" class="horizontal-label">Сопроводительные письма очень важны, потому что работа в чате напрямую связана с письменным выражением своих мыслей. Если письмо шаблонное или состоит из двух предложений (250 символов) — считаем, что его нет 🙂</label>
-                    </div>
+          <div class="input-wrapper js-input-wrapper">
+            <textarea 
+              ref="about"
+              v-model.trim.lazy="profileData.about"
+              v-validate="'required|min:250'"
+              class="js-input"
+              type="text" 
+              name="about" 
+              :placeholder="aboutPlaceholder"
+              rows="10"
+              @focus="onInvalidFocus($event)"
+            />
+            <span class="error-message">{{ errors.first('about') }}</span>
+            <label
+              for="about"
+              class="horizontal-label"
+            >Сопроводительные письма очень важны, потому что работа в чате напрямую связана с письменным выражением своих мыслей. Если письмо шаблонное или состоит из двух предложений (250 символов) — считаем, что его нет 🙂</label>
+          </div>
 
-                    <div class="question-wrapper">
-                        <div class="question-title">Откуда узнал про нашу вакансию?</div>
-                        <div v-for="(option, index) in originOptions"
-                            class="pretty p-smooth p-default p-curve"
-                            :key="index">
-                            <input 
-                                type="radio"
-                                :value="option"
-                                name="origin"
-                                ref="origin"
-                                v-validate="'required'"
-                                v-model="profileData.origin"
-                                @focus="onInvalidFocus($event)"
-                                @change="onCheckboxChange"
-                            />
-                            <div class="state p-success-o">
-                                <label>{{ option }}</label>
-                            </div>
-                        </div>
+          <div class="question-wrapper">
+            <div class="question-title">
+              Откуда узнал про нашу вакансию?
+            </div>
+            <div
+              v-for="(option, index) in originOptions"
+              :key="index"
+              class="pretty p-smooth p-default p-curve"
+            >
+              <input 
+                ref="origin"
+                v-model="profileData.origin"
+                v-validate="'required'"
+                type="radio"
+                :value="option"
+                name="origin"
+                @focus="onInvalidFocus($event)"
+                @change="onCheckboxChange"
+              />
+              <div class="state p-success-o">
+                <label>{{ option }}</label>
+              </div>
+            </div>
 
-                        <input
-                            type="text"
-                            class="question-input"
-                            name="origin_text"
-                            ref="origin_text"
-                            :class="profileData.origin === 'Другое' ? 'expanded' : ''"
-                            v-model.trim.lazy="origin_text"
-                            @focus="onInvalidFocus($event)" />
+            <input
+              ref="origin_text"
+              v-model.trim.lazy="origin_text"
+              type="text"
+              class="question-input"
+              name="origin_text"
+              :class="profileData.origin === 'Другое' ? 'expanded' : ''"
+              @focus="onInvalidFocus($event)"
+            />
 
-                        <span class="error-message">{{ errors.first('origin_text') }}</span>
-                        <span class="error-message">{{ errors.first('origin') }}</span>
-                    </div>
-                </div>
-
-                <button 
-                    class="button"
-                    type="submit">
-                        Перейти к тесту
-                </button>
-
-                <p class="agreement">Я соглашаюсь передать свои персональные данные, содержащиеся в анкете и всех приложенных файлах, в КИВИ Банк (АО) исключительно для того, чтобы КИВИ Банк (АО) мог предлагать мне вакансии. Я понимаю и соглашаюсь, что мои данные будут храниться и&nbsp;обрабатываться КИВИ Банк (АО) в&nbsp;течение десяти лет, в соответствии с&nbsp;Федеральным законом «О персональных данных».</p>
-                <p class="get-card">Кстати, если у вас еще нет карты Рокетбанка, заказать можно <a href="https://rocketbank.ru/welcome/" class="external-link" target="_blank">здесь</a>.</p>
-            </form>
+            <span class="error-message">{{ errors.first('origin_text') }}</span>
+            <span class="error-message">{{ errors.first('origin') }}</span>
+          </div>
         </div>
-    </section>
+
+        <button 
+          class="button"
+          type="submit"
+        >
+          Перейти к тесту
+        </button>
+
+        <p class="agreement">
+          Я соглашаюсь передать свои персональные данные, содержащиеся в анкете и всех приложенных файлах, в КИВИ Банк (АО) исключительно для того, чтобы КИВИ Банк (АО) мог предлагать мне вакансии. Я понимаю и соглашаюсь, что мои данные будут храниться и&nbsp;обрабатываться КИВИ Банк (АО) в&nbsp;течение десяти лет, в соответствии с&nbsp;Федеральным законом «О персональных данных».
+        </p>
+      </form>
+    </div>
+  </section>
 </template>
 
 <script>
 
-import scroll from 'vue-scrollto'
+import scroll from 'vue-scrollto';
 
 export default {
-    data() {
-        return {
-            formValid: false,
-            profileData: {
-                name: '',
-                email: '',
-                phone: '',
-                social: '',
-                cv: '',
-                about: '',
-                hero: '',
-                quest: '',
-                origin: '',
-            },
-            origin_text: '',
-            aboutPlaceholder: 'Подробный рассказ о себе. Нам интересно и важно знать все\xa0— хобби, увлечения, достижения 🙂 Почему вы подойдете нам и как вы видите эту работу? Какие в ней могут быть трудности, как их решать? Какие плюсы и почему эта работа крутая?',
-            originOptions: ['Реклама в соцсетях', 'HeadHunter', 'Рассказали друзья', 'Рассказали в ВУЗе/колледже', 'Другое'],
-        }
+  data() {
+    return {
+      formValid: false,
+      profileData: {
+        name: '',
+        email: '',
+        phone: '',
+        social: '',
+        cv: '',
+        about: '',
+        hero: '',
+        quest: '',
+        origin: '',
+      },
+      origin_text: '',
+      aboutPlaceholder: 'Подробный рассказ о себе. Нам интересно и важно знать все\xa0— хобби, увлечения, достижения 🙂 Почему вы подойдете нам и как вы видите эту работу? Какие в ней могут быть трудности, как их решать? Какие плюсы и почему эта работа крутая?',
+      originOptions: ['Реклама в соцсетях', 'HeadHunter', 'Рассказали друзья', 'Рассказали в ВУЗе/колледже', 'Другое'],
+    };
+  },
+  computed: {
+    isMobile() {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        return true;
+      } else {
+        return false;
+      }
     },
-    computed: {
-        isMobile() {
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                return true
-            } else {
-                return false
-            }
-        },
-        message() {
-            return `<p>Предлагаем тебе заполнить анкету и ответить на наши вопросы, чтобы мы начали знакомство с тобой. Сразу после анкеты тебя ждет два теста: на грамотность и на многозадачность. </p>
+    message() {
+      return `<p>Предлагаем тебе заполнить анкету и ответить на наши вопросы, чтобы мы начали знакомство с тобой. Сразу после анкеты тебя ждет два теста: на грамотность и на многозадачность. </p>
                         <div class="divider"></div>
-                    <p><strong>Внимание!</strong> Тесты ограничены по времени, поэтому если прямо сейчас ты не готов к их прохождению, лучше всего приступить к заполнению анкеты когда будет удобно.</p>`
-        }
-    },
-    methods: {
-        onPhoneFocus() {
-            if (this.profileData.phone === '' && !this.isMobile) {
-                this.profileData.phone = '+7'
-            }
-            if (this.fields.phone.invalid) {
-                this.$validator.flag('phone', {invalid: false})
-            }
-        },
-
-        onInvalidFocus(e) {
-            let fieldname = e.currentTarget.getAttribute('name')
-            if (this.fields[fieldname].invalid) {
-                this.$validator.flag(fieldname, {invalid: false})
-            }
-        },
-
-        onCheckboxChange() {
-            if (this.origin !== 'Другое') {
-                this.origin_text = ''
-            }
-        },
-
-        submit() {
-            this.$validator.validateAll().then((result) => {
-                if (result) {
-                    if (this.origin_text && this.profileData.origin === 'Другое') {
-                        this.profileData.origin = this.origin_text
-                    }
-                    this.$emit('profileCompleted', this.profileData)
-
-                } else {
-                    let firstInvalid = document.querySelector('.invalid') 
-                    scroll.scrollTo(firstInvalid, 300, { offset: -20 })
-                }
-            })
-        },
+                    <p><strong>Внимание!</strong> Тесты ограничены по времени, поэтому если прямо сейчас ты не готов к их прохождению, лучше всего приступить к заполнению анкеты когда будет удобно.</p>`;
     }
-}
+  },
+  methods: {
+    onPhoneFocus() {
+      if (this.profileData.phone === '' && !this.isMobile) {
+        this.profileData.phone = '+7';
+      }
+      if (this.fields.phone.invalid) {
+        this.$validator.flag('phone', {invalid: false});
+      }
+    },
+
+    onInvalidFocus(e) {
+      let fieldname = e.currentTarget.getAttribute('name');
+      if (this.fields[fieldname].invalid) {
+        this.$validator.flag(fieldname, {invalid: false});
+      }
+    },
+
+    onCheckboxChange() {
+      if (this.origin !== 'Другое') {
+        this.origin_text = '';
+      }
+    },
+
+    submit() {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          if (this.origin_text && this.profileData.origin === 'Другое') {
+            this.profileData.origin = this.origin_text;
+          }
+          this.$emit('profileCompleted', this.profileData);
+          this.$emit('change', 'GrammarReady');
+
+        } else {
+          let firstInvalid = document.querySelector('.invalid'); 
+          scroll.scrollTo(firstInvalid, 300, { offset: -20 });
+        }
+      });
+    },
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
