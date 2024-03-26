@@ -17,7 +17,7 @@
         "consul": "^0.35.0",
         "cors": "^2.8.5",
         "dotenv": "^8.0.0",
-        "express": "^4.17.1",
+        "express": "^4.19.2",
         "googleapis": "39",
         "lodash": "^4.17.15",
         "morgan": "^1.9.1"
